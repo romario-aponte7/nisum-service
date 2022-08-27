@@ -1,0 +1,71 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="romario" id="0000-0000-0001">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP WITHOUT TIME ZONE"></column>
+            <column name="modified" type="TIMESTAMP WITHOUT TIME ZONE"></column>
+            <column name="last_login" type="TIMESTAMP WITHOUT TIME ZONE"></column>
+            <column name="token" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="romario" id="0000-0000-0002">
+        <createTable tableName="phones">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="phones_pkey"/>
+            </column>
+            <column name="number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID"></column>
+        </createTable>
+    </changeSet>
+    <changeSet author="romario" id="0000-0000-0003">
+        <createTable tableName="default_configurations">
+            <column name="default_configuration_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="default_configurations_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="romario" id="0000-0000-0004">
+
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="phones"
+                                 constraintName="fk_phones_user" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users" validate="true"/>
+
+
+    </changeSet>
+</databaseChangeLog>
