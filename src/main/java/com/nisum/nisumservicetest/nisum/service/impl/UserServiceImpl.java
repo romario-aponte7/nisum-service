@@ -10,13 +10,10 @@ import com.nisum.nisumservicetest.nisum.repository.PhoneRepository;
 import com.nisum.nisumservicetest.nisum.repository.UserRepository;
 import com.nisum.nisumservicetest.nisum.service.DefaultConfigurationService;
 import com.nisum.nisumservicetest.nisum.service.UserService;
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -65,6 +62,13 @@ public class UserServiceImpl implements UserService {
             } else {
                 user = new User();
                 isNewUser = false;
+            }
+        }
+        if (isNewUser) {
+            String emial = userPresenter.getEmail();
+            Optional<User> optionalUser = userRepository.findByEmail(emial);
+            if (optionalUser.isPresent()) {
+                throw new ValidationException("El email ya se encuentra registrado para el usuario: " + optionalUser.get().getName());
             }
         }
         if (userPresenter.getPhonePresenters() != null && !userPresenter.getPhonePresenters().isEmpty()) {
